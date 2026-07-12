@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Core/">
+    <Project Path="Pos.tenant.Application/Pos.tenant.Application.csproj" />
+    <Project Path="Pos.tenant.Domain/Pos.tenant.Domain.csproj" />
+  </Folder>
+  <Folder Name="/Infrastructure/">
+    <Project Path="Pos.tenant.Infrastructure.Persistence/Pos.tenant.Infrastructure.Persistence.csproj" />
+    <Project Path="Pos.tenant.Infrastructure.Shared/Pos.tenant.Infrastructure.Shared.csproj" />
+  </Folder>
+  <Folder Name="/WebApi/">
+    <Project Path="Pos.tenant.WebApi/Pos.tenant.WebApi.csproj" />
+  </Folder>
+</Solution>

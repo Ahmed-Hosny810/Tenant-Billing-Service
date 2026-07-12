@@ -1,0 +1,47 @@
+﻿using Pos.tenant.Domain.Common;
+using Pos.tenant.Domain.Constants;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Pos.tenant.Domain.Models
+{
+    public partial class Tenant:BaseEntity
+    {
+        public string? NameAr { get; set; }
+        public string? NameEn { get; set; }
+
+        public string Slug { get; set; } = null!;
+        public string Subdomain { get; set; } = null!;
+        public string BusinessTypeCode { get; set; } = null!;
+
+        public string Status { get; set; } = TenantStatuses.Pending;
+
+        public string CurrencyCode { get; set; } = "EGP";
+        public string InventoryMode { get; set; } = TenantInventoryModes.TrackStock;
+
+        public string GetDisplayName(string? language)
+        {
+            var isArabic = string.Equals(language, "ar", StringComparison.OrdinalIgnoreCase);
+
+            return isArabic
+                ? NameAr ?? NameEn ?? string.Empty
+                : NameEn ?? NameAr ?? string.Empty;
+        }
+
+        public void Activate()
+        {
+            Status = TenantStatuses.Active;
+        }
+
+        public void Suspend()
+        {
+            Status = TenantStatuses.Suspended;
+        }
+
+        public void Cancel()
+        {
+            Status = TenantStatuses.Cancelled;
+        }
+    }
+}

@@ -1,0 +1,43 @@
+﻿using Pos.tenant.Domain.Common;
+using Pos.tenant.Domain.Constants;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Pos.tenant.Domain.Models
+{
+    public partial class SubscriptionInvoice : BaseEntity
+    {
+        public Guid TenantId { get; set; }
+        public Guid TenantSubscriptionId { get; set; }
+
+        public string InvoiceNumber { get; set; } = null!;
+
+        public DateTime PeriodStart { get; set; }
+        public DateTime PeriodEnd { get; set; }
+
+        public decimal Total { get; set; }
+
+        public string Status { get; set; } = InvoiceStatuses.Unpaid;
+
+        public DateTime DueDate { get; set; }
+        public DateTime? PaidAt { get; set; }
+
+        public void MarkPaid(DateTime paidAt)
+        {
+            Status = InvoiceStatuses.Paid;
+            PaidAt = paidAt;
+        }
+
+        public void MarkOverdue()
+        {
+            if (Status != InvoiceStatuses.Paid)
+                Status = InvoiceStatuses.Overdue;
+        }
+
+        public void Cancel()
+        {
+            Status = InvoiceStatuses.Cancelled;
+        }
+    }
+}
