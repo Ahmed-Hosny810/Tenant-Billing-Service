@@ -17,6 +17,8 @@ namespace Pos.tenant.Domain.Models
 
         public decimal MonthlyPrice { get; set; }
 
+        public string CurrencyCode { get; set; } = "EGP";
+
         public int? BranchLimit { get; set; }
         public int? ProductLimit { get; set; }
         public int? CashierLimit { get; set; }

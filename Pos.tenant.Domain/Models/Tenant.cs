@@ -9,7 +9,7 @@ namespace Pos.tenant.Domain.Models
     public partial class Tenant:BaseEntity
     {
         public string? NameAr { get; set; }
-        public string? NameEn { get; set; }
+        public string NameEn { get; set; }= null!;
 
         public string Slug { get; set; } = null!;
         public string Subdomain { get; set; } = null!;
