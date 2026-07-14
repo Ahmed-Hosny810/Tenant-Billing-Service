@@ -1,11 +1,10 @@
-
-using Asp.Versioning;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Pos.tenant.Infrastructure.Persistence;
 using Pos.tenant.Infrastructure.Persistence.Contexts;
 using Pos.tenant.Infrastructure.Persistence.Seeders;
 using Pos.tenant.WebApi.Extensions;
+using Pos.tenant.Application;
 using Serilog;
 namespace Pos.tenant.WebApi
 {
@@ -41,7 +40,7 @@ namespace Pos.tenant.WebApi
             builder.Services.AddApiVersioningExtension();
             // AddPersistenceServices
             builder.Services.AddPersistenceServices(builder.Configuration);
-
+            builder.Services.AddApplicationLayer();
             // Swagger (via extension)
             builder.Services.AddSwaggerExtension();
 

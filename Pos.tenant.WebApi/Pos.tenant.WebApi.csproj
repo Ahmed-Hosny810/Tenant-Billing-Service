@@ -36,8 +36,4 @@
     <ProjectReference Include="..\Pos.tenant.Infrastructure.Shared\Pos.tenant.Infrastructure.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>

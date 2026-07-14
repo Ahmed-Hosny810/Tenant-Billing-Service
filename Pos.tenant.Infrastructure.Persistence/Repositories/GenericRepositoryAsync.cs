@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure.Core;
+using Microsoft.EntityFrameworkCore;
 using Pos.tenant.Application.Interfaces.Repositories;
 using Pos.tenant.Infrastructure.Persistence.Contexts;
 using System;
@@ -20,6 +21,9 @@ namespace Pos.tenant.Infrastructure.Persistence.Repositories
         }
         public async Task<IReadOnlyList<T>> GetPagedResponseAsync(int pageNumber, int pageSize)
         {
+            pageNumber = pageNumber <= 0 ? 1 : pageNumber;
+            pageSize = pageSize <= 0 ? 10 : pageSize;
+
             return await _dbSet.Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .AsNoTracking()
@@ -35,6 +39,11 @@ namespace Pos.tenant.Infrastructure.Persistence.Repositories
         public async Task<T> GetByIdAsync(TKey id)
         {
             return await _dbSet.FindAsync(id);
+        }
+
+        public async Task<int> GetTotalCountAsync()
+        { 
+            return await _dbSet.CountAsync();
         }
         public async Task<T> AddAsync(T entity)
         {

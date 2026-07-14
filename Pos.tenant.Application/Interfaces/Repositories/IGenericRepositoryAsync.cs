@@ -11,6 +11,7 @@ namespace Pos.tenant.Application.Interfaces.Repositories
         Task<IReadOnlyList<T>> GetPagedResponseAsync(int pageNumber, int pageSize);
         Task<IReadOnlyList<T>> GetAllAsync();
         Task<T> GetByIdAsync(TKey id);
+        Task<int> GetTotalCountAsync();
         Task<T> AddAsync(T entity);
         void Update(T entity);
         void Delete(T entity);
