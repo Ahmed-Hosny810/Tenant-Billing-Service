@@ -11,10 +11,10 @@ namespace Pos.tenant.Domain.Models
         public Guid TenantId { get; set; }
         public Guid PlanId { get; set; }
 
-        public string Status { get; set; } = SubscriptionStatuses.Active;
+        public string Status { get; set; } = TenantSubscriptionStatuses.Pending;
 
-        public DateTime CurrentPeriodStart { get; set; }
-        public DateTime CurrentPeriodEnd { get; set; }
+        public DateTime? CurrentPeriodStart { get; set; }
+        public DateTime? CurrentPeriodEnd { get; set; }
 
         public DateTime? GracePeriodEndsAt { get; set; }
 
@@ -23,26 +23,28 @@ namespace Pos.tenant.Domain.Models
             PlanId = newPlanId;
         }
 
-        public void MarkActive()
+        public void MarkActive(DateTime startDate)
         {
-            Status = SubscriptionStatuses.Active;
+            Status = TenantSubscriptionStatuses.Active;
+            CurrentPeriodStart = startDate;
+            CurrentPeriodEnd = startDate.AddMonths(1);
             GracePeriodEndsAt = null;
         }
 
         public void MarkPastDue(DateTime gracePeriodEndsAt)
         {
-            Status = SubscriptionStatuses.PastDue;
+            Status = TenantSubscriptionStatuses.PastDue;
             GracePeriodEndsAt = gracePeriodEndsAt;
         }
 
         public void Expire()
         {
-            Status = SubscriptionStatuses.Expired;
+            Status = TenantSubscriptionStatuses.Expired;
         }
 
         public void Cancel()
         {
-            Status = SubscriptionStatuses.Cancelled;
+            Status = TenantSubscriptionStatuses.Cancelled;
         }
     }
 }

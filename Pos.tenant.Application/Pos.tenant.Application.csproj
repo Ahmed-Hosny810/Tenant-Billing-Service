@@ -9,7 +9,8 @@
   <ItemGroup>
     <Folder Include="Behaviours\" />
     <Folder Include="DTOS\" />
-    <Folder Include="Helpers\" />
+    <Folder Include="Features\Tenants\DTOS\" />
+    <Folder Include="Features\Tenants\Queries\" />
     <Folder Include="Interfaces\Services\" />
     <Folder Include="Parameters\" />
     <Folder Include="Settings\" />

@@ -19,14 +19,14 @@ namespace Pos.tenant.Infrastructure.Persistence.Contexts.DbConfigurations
             builder.Property(x => x.Status)
                 .HasMaxLength(30)
                 .IsUnicode(false)
-                .HasDefaultValue(SubscriptionStatuses.Active)
+                .HasDefaultValue(TenantSubscriptionStatuses.Pending)
                 .IsRequired();
 
             builder.Property(x => x.CurrentPeriodStart)
-                .IsRequired();
+                .IsRequired(false);
 
             builder.Property(x => x.CurrentPeriodEnd)
-                .IsRequired();
+                .IsRequired(false);
 
             builder.Property(x => x.GracePeriodEndsAt)
                 .IsRequired(false);

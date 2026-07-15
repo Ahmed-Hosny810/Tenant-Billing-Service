@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Pos.tenant.Application.Features.SubscriptionPlans.Commands.CreateCommand;
 using Pos.tenant.Application.Features.SubscriptionPlans.DTOs;
+using Pos.tenant.Application.Features.Tenants.Commands.CreateCommand;
 using Pos.tenant.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace Pos.tenant.Application.Mappings
         {
             CreateMap<CreateSubscriptionPlanCommand, SubscriptionPlan>();
             CreateMap<SubscriptionPlanDto, SubscriptionPlan>().ReverseMap();
+            CreateMap<CreateTenantCommand, Tenant>();
         }
     }
 }
