@@ -257,12 +257,6 @@ namespace Pos.tenant.Infrastructure.Persistence.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("Slug")
-                        .IsRequired()
-                        .HasMaxLength(120)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(120)");
-
                     b.Property<string>("Status")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -271,22 +265,10 @@ namespace Pos.tenant.Infrastructure.Persistence.Migrations
                         .HasColumnType("varchar(30)")
                         .HasDefaultValue("Pending");
 
-                    b.Property<string>("Subdomain")
-                        .IsRequired()
-                        .HasMaxLength(120)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(120)");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Slug")
-                        .IsUnique();
-
-                    b.HasIndex("Subdomain")
-                        .IsUnique();
 
                     b.ToTable("Tenants", (string)null);
                 });
@@ -390,10 +372,10 @@ namespace Pos.tenant.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("CurrentPeriodEnd")
+                    b.Property<DateTime?>("CurrentPeriodEnd")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("CurrentPeriodStart")
+                    b.Property<DateTime?>("CurrentPeriodStart")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("GracePeriodEndsAt")
@@ -408,7 +390,7 @@ namespace Pos.tenant.Infrastructure.Persistence.Migrations
                         .HasMaxLength(30)
                         .IsUnicode(false)
                         .HasColumnType("varchar(30)")
-                        .HasDefaultValue("Active");
+                        .HasDefaultValue("Pending");
 
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");

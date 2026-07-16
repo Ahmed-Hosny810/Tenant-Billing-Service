@@ -19,25 +19,26 @@ namespace Pos.tenant.Domain.Constants
         public const string Salon = "SALON";
         public const string GeneralRetail = "GENERAL_RETAIL";
 
-        public static readonly IReadOnlyCollection<string> All = new[]
-        {
-            Restaurant,
-            Cafe,
-            Grocery,
-            MiniMarket,
-            Pharmacy,
-            Clothing,
-            Furniture,
-            Cosmetics,
-            Accessories,
-            Electronics,
-            Salon,
-            GeneralRetail
-        };
+        public static readonly IReadOnlyList<BusinessTypeOption> Options =
+            new List<BusinessTypeOption>
+            {
+                new() { Code = Restaurant, NameEn = "Restaurant", NameAr = "مطعم" },
+                new() { Code = Cafe, NameEn = "Cafe", NameAr = "كافيه" },
+                new() { Code = Grocery, NameEn = "Grocery", NameAr = "بقالة" },
+                new() { Code = MiniMarket, NameEn = "Mini Market", NameAr = "ميني ماركت" },
+                new() { Code = Pharmacy, NameEn = "Pharmacy", NameAr = "صيدلية" },
+                new() { Code = Clothing, NameEn = "Clothing Store", NameAr = "محل ملابس" },
+                new() { Code = Furniture, NameEn = "Furniture Store", NameAr = "محل أثاث" },
+                new() { Code = Cosmetics, NameEn = "Cosmetics Store", NameAr = "محل مستحضرات تجميل" },
+                new() { Code = Accessories, NameEn = "Accessories Store", NameAr = "محل إكسسوارات" },
+                new() { Code = Electronics, NameEn = "Electronics Store", NameAr = "محل إلكترونيات" },
+                new() { Code = Salon, NameEn = "Salon", NameAr = "صالون" },
+                new() { Code = GeneralRetail, NameEn = "General Retail", NameAr = "تجزئة عامة" }
+            };
 
         public static bool IsSupported(string businessType)
         {
-            return All.Contains(businessType);
+            return Options.Any(x => x.Code == businessType);
         }
     }
 }

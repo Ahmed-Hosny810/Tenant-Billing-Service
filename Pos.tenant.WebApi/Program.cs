@@ -6,6 +6,7 @@ using Pos.tenant.Infrastructure.Persistence.Seeders;
 using Pos.tenant.WebApi.Extensions;
 using Pos.tenant.Application;
 using Serilog;
+using Pos.tenant.WebApi.MiddleWares;
 namespace Pos.tenant.WebApi
 {
     public class Program
@@ -46,6 +47,7 @@ namespace Pos.tenant.WebApi
 
             var app = builder.Build();
 
+            app.UseMiddleware<ErrorHandlerMiddleware>();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

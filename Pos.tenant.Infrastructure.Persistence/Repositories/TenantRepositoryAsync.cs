@@ -16,15 +16,5 @@ namespace Pos.tenant.Infrastructure.Persistence.Repositories
         {
             _context = context;
         }
-
-        public async Task<bool> IsSlugExistsAsync(string slug)
-        {
-            return await _context.Tenants.AnyAsync(t => t.Slug == slug);
-        }
-
-        public async Task<bool> IsSubdomainExistsAsync(string? subdomain)
-        {
-            return await _context.Tenants.AnyAsync(t => t.Subdomain == subdomain);
-        }
     }
 }

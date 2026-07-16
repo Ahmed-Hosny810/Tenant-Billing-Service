@@ -25,7 +25,10 @@ namespace Pos.tenant.Infrastructure.Persistence
             services.AddScoped(typeof(IGenericRepositoryAsync<,>), typeof(GenericRepositoryAsync<,>));
 
             services.AddScoped<ISubscriptionPlanRepositoryAsync, SubscriptionPlanRepositoryAsync>();
-
+            services.AddScoped<ITenantRepositoryAsync, TenantRepositoryAsync>();
+            services.AddScoped<ITenantSettingsRepositoryAsync, TenantSettingsRepositoryAsync>();
+            services.AddScoped<ITenantUsageCountersRepositoryAsync, TenantUsageCountersRepositoryAsync>();
+            services.AddScoped<ITenantSubscriptionRepositoryAsync, TenantSubscriptionRepositoryAsync>();
             return services;
 
         }

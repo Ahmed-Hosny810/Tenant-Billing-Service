@@ -10,9 +10,6 @@ namespace Pos.tenant.Domain.Models
     {
         public string? NameAr { get; set; }
         public string NameEn { get; set; }= null!;
-
-        public string Slug { get; set; } = null!;
-        public string Subdomain { get; set; } = null!;
         public string BusinessTypeCode { get; set; } = null!;
 
         public string Status { get; set; } = TenantStatuses.Pending;

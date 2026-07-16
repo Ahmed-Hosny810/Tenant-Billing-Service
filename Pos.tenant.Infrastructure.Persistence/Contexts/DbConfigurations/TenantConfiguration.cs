@@ -24,16 +24,6 @@ namespace Pos.tenant.Infrastructure.Persistence.Contexts.DbConfigurations
                 .HasMaxLength(200)
                 .IsUnicode();
 
-            builder.Property(x => x.Slug)
-                .HasMaxLength(120)
-                .IsUnicode(false)
-                .IsRequired();
-
-            builder.Property(x => x.Subdomain)
-                .HasMaxLength(120)
-                .IsUnicode(false)
-                .IsRequired();
-
             builder.Property(x => x.BusinessTypeCode)
                 .HasMaxLength(80)
                 .IsUnicode(false)
@@ -63,11 +53,6 @@ namespace Pos.tenant.Infrastructure.Persistence.Contexts.DbConfigurations
             builder.Property(x => x.UpdatedAt)
                 .IsRequired(false);
 
-            builder.HasIndex(x => x.Slug)
-                .IsUnique();
-
-            builder.HasIndex(x => x.Subdomain)
-                .IsUnique();
         }
     }
 }

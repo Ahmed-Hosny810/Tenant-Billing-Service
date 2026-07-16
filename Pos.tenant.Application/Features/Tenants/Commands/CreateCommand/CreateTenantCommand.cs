@@ -19,7 +19,6 @@ namespace Pos.tenant.Application.Features.Tenants.Commands.CreateCommand
         public string CurrencyCode { get; set; } = "EGP";
         public string InventoryMode { get; set; } = TenantInventoryModes.TrackStock;
         public string PlanCode { get; set; }= null!;
-        public string Subdomain { get; set; } = null!;
     }
     public class CreateTenantCommandHandler: IRequestHandler<CreateTenantCommand, Result<Guid>>
     {
@@ -46,22 +45,6 @@ namespace Pos.tenant.Application.Features.Tenants.Commands.CreateCommand
             var nameEn = request.NameEn.Trim();
             var nameAr = request.NameAr?.Trim();
 
-            var subdomain = SubdomainHelper.Normalize(request.Subdomain);
-
-            if (!SubdomainHelper.IsValid(subdomain))
-                return Result<Guid>.Failure("Invalid subdomain.");
-
-            if (await _tenantRepository.IsSubdomainExistsAsync(subdomain))
-                return Result<Guid>.Failure("Subdomain already exists.");
-
-            var slug = SlugHelper.Generate(request.NameEn);
-
-            if (string.IsNullOrWhiteSpace(slug))
-                return Result<Guid>.Failure("Invalid tenant name.");
-
-            if (await _tenantRepository.IsSlugExistsAsync(slug))
-                return Result<Guid>.Failure("Slug already exists.");
-
             var currencyCode = request.CurrencyCode.Trim().ToUpperInvariant();
             var businessTypeCode = request.BusinessTypeCode.Trim().ToUpperInvariant();
             var planCode = request.PlanCode.Trim().ToUpperInvariant();
@@ -72,15 +55,11 @@ namespace Pos.tenant.Application.Features.Tenants.Commands.CreateCommand
             if (subscriptionPlan==null)
                  return Result<Guid>.Failure("Invalid Subscription Plan.");
 
-            // Validate Business Type
-            if (string.IsNullOrEmpty(businessTypeCode)||!BusinessType.IsSupported(businessTypeCode))
-                    return Result<Guid>.Failure("Invalid Business Type.");
+            var tenantId = Guid.NewGuid();
 
             var tenant = new Tenant
             {
-                Id = Guid.NewGuid(),
-                Slug = slug,
-                Subdomain = subdomain,
+                Id = tenantId,
                 NameAr = request.NameAr,
                 NameEn = request.NameEn,
                 BusinessTypeCode = businessTypeCode,
@@ -98,7 +77,10 @@ namespace Pos.tenant.Application.Features.Tenants.Commands.CreateCommand
             {
                 TenantId = tenant.Id,
                 PlanId= subscriptionPlan.Id,
-                Status= TenantSubscriptionStatuses.Pending
+                Status= TenantSubscriptionStatuses.Pending,
+                CurrentPeriodStart = null,
+                CurrentPeriodEnd = null,
+                GracePeriodEndsAt = null
             };
 
             var tenantUsageCounter = new TenantUsageCounters
