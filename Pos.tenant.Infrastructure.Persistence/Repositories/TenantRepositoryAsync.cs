@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Pos.tenant.Application.Features.Tenants.Queries.GetAllQuery;
 using Pos.tenant.Application.Interfaces.Repositories;
+using Pos.tenant.Application.Wrappers;
 using Pos.tenant.Domain.Models;
 using Pos.tenant.Infrastructure.Persistence.Contexts;
+using Pos.tenant.Infrastructure.Persistence.QueryExtensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,6 +18,32 @@ namespace Pos.tenant.Infrastructure.Persistence.Repositories
         public TenantRepositoryAsync(ApplicationDbContext context) : base(context)
         {
             _context = context;
+        }
+
+        public async Task<PagedResponse<IEnumerable<Tenant>>> GetTenantsPagedResponseAsync(TenantFilter filter, TenantIncludes includes, TenantOrderKey orderKey, bool orderDescending, int pageNumber, int pageSize)
+        {
+            pageNumber = pageNumber <= 0 ? 1 : pageNumber;
+            pageSize = pageSize <= 0 ? 10 : pageSize;
+
+            var query = _context.Tenants.AsNoTracking();
+
+            var totalRecords = await query
+                .ApplyFilters(filter)
+                .CountAsync();
+
+            var tenants = await query
+                .ApplyFilters(filter)
+                .ApplyIncludes(includes)
+                .ApplyOrdering(orderKey, orderDescending)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return new PagedResponse<IEnumerable<Tenant>>(
+                tenants,
+                pageNumber,
+                pageSize,
+                totalRecords);
         }
     }
 }

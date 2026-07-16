@@ -17,6 +17,7 @@ namespace Pos.tenant.Domain.Models
         public DateTime? CurrentPeriodEnd { get; set; }
 
         public DateTime? GracePeriodEndsAt { get; set; }
+        public SubscriptionPlan? Plan { get; set; }
 
         public void ChangePlan(Guid newPlanId)
         {
