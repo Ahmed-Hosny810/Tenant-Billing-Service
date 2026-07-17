@@ -30,10 +30,11 @@ namespace Pos.tenant.Infrastructure.Persistence.Contexts.DbConfigurations
             builder.Property(x => x.UpdatedAt)
                 .IsRequired();
 
-            builder.HasOne<Tenant>()
-                .WithOne()
-                .HasForeignKey<TenantUsageCounters>(x => x.TenantId)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(x => x.Tenant)
+                 .WithOne(x => x.TenantUsageCounters)
+                 .HasForeignKey<TenantUsageCounters>(x => x.TenantId)
+                 .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

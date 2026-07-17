@@ -19,6 +19,9 @@ namespace Pos.tenant.Domain.Models
             public decimal DiscountLimitPercent { get; set; } = 20;
 
             public string DefaultLanguage { get; set; } = SupportedLanguages.Arabic;
+
+             //Navigation Properties
+              public Tenant Tenant { get; set; } = null!;
         }
     
 }

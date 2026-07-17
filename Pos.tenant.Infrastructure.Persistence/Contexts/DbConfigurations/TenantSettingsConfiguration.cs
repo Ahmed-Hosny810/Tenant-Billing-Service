@@ -48,11 +48,11 @@ namespace Pos.tenant.Infrastructure.Persistence.Contexts.DbConfigurations
                     .HasDefaultValue(SupportedLanguages.English)
                     .IsRequired();
 
-                builder.HasOne<Tenant>()
-                    .WithOne()
+            builder.HasOne(x => x.Tenant)
+                    .WithOne(x => x.TenantSettings)
                     .HasForeignKey<TenantSettings>(x => x.TenantId)
                     .OnDelete(DeleteBehavior.Restrict);
-            }
+        }
         }
     }
 

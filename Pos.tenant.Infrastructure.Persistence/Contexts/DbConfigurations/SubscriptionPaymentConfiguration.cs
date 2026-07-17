@@ -49,15 +49,15 @@ namespace Pos.tenant.Infrastructure.Persistence.Contexts.DbConfigurations
 
             builder.HasIndex(x => new { x.TenantId, x.Status });
 
-            builder.HasOne<Tenant>()
-                .WithMany()
-                .HasForeignKey(x => x.TenantId)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(x => x.Tenant)
+                     .WithMany(x => x.SubscriptionPayments)
+                     .HasForeignKey(x => x.TenantId)
+                     .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne<SubscriptionInvoice>()
-                .WithMany()
-                .HasForeignKey(x => x.InvoiceId)
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(x => x.Invoice)
+                    .WithMany(x => x.SubscriptionPayments)
+                    .HasForeignKey(x => x.InvoiceId)
+                    .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

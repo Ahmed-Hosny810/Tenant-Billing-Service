@@ -26,6 +26,8 @@ namespace Pos.tenant.Domain.Models
         public bool AllowVariants { get; set; }
         public bool IsActive { get; set; } = true;
 
+        public ICollection<TenantSubscription> TenantSubscriptions { get; set; } = new HashSet<TenantSubscription>();
+
         public string GetDisplayName(string? language)
         {
             var isArabic = string.Equals(language, "ar", StringComparison.OrdinalIgnoreCase);

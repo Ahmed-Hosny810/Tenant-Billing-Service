@@ -20,6 +20,10 @@ namespace Pos.tenant.Domain.Models
 
         public DateTime? PaidAt { get; set; }
 
+        public Tenant Tenant { get; set; } = null!;
+        public SubscriptionInvoice Invoice { get; set; } = null!;
+
+
         public void MarkCompleted(DateTime paidAt)
         {
             Status = PaymentStatuses.Completed;

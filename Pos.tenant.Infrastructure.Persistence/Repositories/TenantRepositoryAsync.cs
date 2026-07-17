@@ -20,6 +20,14 @@ namespace Pos.tenant.Infrastructure.Persistence.Repositories
             _context = context;
         }
 
+        public async Task<Tenant?> GetTenantByIdAsync(Guid tenantId, TenantIncludes includes)
+        {
+            return await _context.Tenants
+                .AsNoTracking()
+                .ApplyIncludes(includes)
+                .FirstOrDefaultAsync(t => t.Id == tenantId);
+        }
+
         public async Task<PagedResponse<IEnumerable<Tenant>>> GetTenantsPagedResponseAsync(TenantFilter filter, TenantIncludes includes, TenantOrderKey orderKey, bool orderDescending, int pageNumber, int pageSize)
         {
             pageNumber = pageNumber <= 0 ? 1 : pageNumber;

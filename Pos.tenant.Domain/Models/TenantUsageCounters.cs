@@ -13,5 +13,7 @@ namespace Pos.tenant.Domain.Models
         public int CashierCount { get; set; }
 
         public DateTime UpdatedAt { get; set; }
+
+        public Tenant Tenant { get; set; } = null!;
     }
 }

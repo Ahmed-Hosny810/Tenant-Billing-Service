@@ -12,5 +12,7 @@ namespace Pos.tenant.Application.Interfaces.Repositories
     {
         Task<PagedResponse<IEnumerable<Tenant>>> GetTenantsPagedResponseAsync(TenantFilter filter, TenantIncludes includes,
             TenantOrderKey orderKey, bool orderDescending, int currentPage, int pageSize);
+
+        Task<Tenant?> GetTenantByIdAsync(Guid tenantId, TenantIncludes includes);
     }
 }

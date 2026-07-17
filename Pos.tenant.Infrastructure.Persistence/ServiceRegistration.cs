@@ -29,6 +29,7 @@ namespace Pos.tenant.Infrastructure.Persistence
             services.AddScoped<ITenantSettingsRepositoryAsync, TenantSettingsRepositoryAsync>();
             services.AddScoped<ITenantUsageCountersRepositoryAsync, TenantUsageCountersRepositoryAsync>();
             services.AddScoped<ITenantSubscriptionRepositoryAsync, TenantSubscriptionRepositoryAsync>();
+            services.AddScoped<ITenantStatusHistoryRepositoryAsync, TenantStatusHistoryRepositoryAsync>();
             return services;
 
         }

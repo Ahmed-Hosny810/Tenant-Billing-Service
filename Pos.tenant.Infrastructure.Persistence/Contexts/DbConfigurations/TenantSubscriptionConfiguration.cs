@@ -31,23 +31,17 @@ namespace Pos.tenant.Infrastructure.Persistence.Contexts.DbConfigurations
             builder.Property(x => x.GracePeriodEndsAt)
                 .IsRequired(false);
 
-            builder.Property(x => x.CreatedAt)
-                .IsRequired();
-
-            builder.Property(x => x.UpdatedAt)
-                .IsRequired(false);
-
             builder.HasIndex(x => x.TenantId);
 
             builder.HasIndex(x => new { x.TenantId, x.Status });
 
-            builder.HasOne<Tenant>()
-                .WithMany()
+            builder.HasOne(x => x.Tenant)
+                .WithMany(x => x.TenantSubscriptions)
                 .HasForeignKey(x => x.TenantId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne<SubscriptionPlan>()
-                .WithMany()
+            builder.HasOne(x => x.Plan)
+                .WithMany(x => x.TenantSubscriptions)
                 .HasForeignKey(x => x.PlanId)
                 .OnDelete(DeleteBehavior.Restrict);
         }

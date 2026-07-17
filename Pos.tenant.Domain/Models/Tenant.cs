@@ -16,11 +16,19 @@ namespace Pos.tenant.Domain.Models
 
         public string CurrencyCode { get; set; } = "EGP";
         public string InventoryMode { get; set; } = TenantInventoryModes.TrackStock;
+
+        //Navigation Properties
         public TenantSettings? TenantSettings { get; set; }
 
         public TenantUsageCounters? TenantUsageCounters { get; set; }
 
         public ICollection<TenantSubscription> TenantSubscriptions { get; set; } = new HashSet<TenantSubscription>();
+        public ICollection<TenantStatusHistory> TenantStatusHistory { get; set; } = new HashSet<TenantStatusHistory>();
+
+        public ICollection<SubscriptionInvoice> SubscriptionInvoices { get; set; } = new HashSet<SubscriptionInvoice>();
+
+        public ICollection<SubscriptionPayment> SubscriptionPayments { get; set; } = new HashSet<SubscriptionPayment>();
+
 
         public string GetDisplayName(string? language)
         {

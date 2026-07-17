@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Pos.tenant.Application.Features.Tenants.DTOS;
 using Pos.tenant.Application.Interfaces.Repositories;
 using Pos.tenant.Application.Wrappers;
@@ -16,29 +17,29 @@ namespace Pos.tenant.Application.Features.Tenants.Queries.GetAllQuery
         : IRequestHandler<GetAllTenantsQuery, PagedResponse<IEnumerable<TenantDto>>>
     {
         private readonly ITenantRepositoryAsync _tenantRepository;
+        private readonly IMapper _mapper;
 
-        public GetAllTenantsQueryHandler(ITenantRepositoryAsync tenantRepository)
+        public GetAllTenantsQueryHandler(ITenantRepositoryAsync tenantRepository,IMapper mapper)
         {
             _tenantRepository = tenantRepository;
+            _mapper = mapper;
         }
 
         public async Task<PagedResponse<IEnumerable<TenantDto>>> Handle(
             GetAllTenantsQuery request,
             CancellationToken cancellationToken)
         {
-            var parameter = request.Parameter;
+            
 
             var pagedTenants = await _tenantRepository.GetTenantsPagedResponseAsync(
-                parameter.Filter,
-                parameter.Includes,
-                parameter.OrderKey,
-                parameter.OrderDescending,
-                parameter.PageNumber,
-                parameter.PageSize);
+                request.Parameter.Filter,
+                request.Parameter.Includes,
+                request.Parameter.OrderKey,
+                request.Parameter.OrderDescending,
+                request.Parameter.PageNumber,
+                request.Parameter.PageSize);
 
-            var tenantDtos = pagedTenants.Data
-                .Select(x => new TenantDto(x, parameter.Includes))
-                .ToList();
+             var tenantDtos = _mapper.Map<IEnumerable<TenantDto>>(pagedTenants.Data);
 
             return new PagedResponse<IEnumerable<TenantDto>>(
                 tenantDtos,

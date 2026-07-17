@@ -23,6 +23,12 @@ namespace Pos.tenant.Domain.Models
         public DateTime DueDate { get; set; }
         public DateTime? PaidAt { get; set; }
 
+        //Navigation Properties
+        public Tenant Tenant { get; set; } = null!;
+        public TenantSubscription TenantSubscription { get; set; } = null!;
+
+        public ICollection<SubscriptionPayment> SubscriptionPayments { get; set; } = new HashSet<SubscriptionPayment>();
+
         public void MarkPaid(DateTime paidAt)
         {
             Status = InvoiceStatuses.Paid;
