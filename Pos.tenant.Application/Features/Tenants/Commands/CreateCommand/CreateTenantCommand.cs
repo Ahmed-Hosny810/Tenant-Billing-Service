@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using Pos.tenant.Application.Helpers;
 using Pos.tenant.Application.Interfaces.Repositories;
 using Pos.tenant.Application.Wrappers;
 using Pos.tenant.Domain.Constants;

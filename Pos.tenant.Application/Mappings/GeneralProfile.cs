@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Pos.tenant.Application.Features.SubscriptionInvoices.DTOS;
 using Pos.tenant.Application.Features.SubscriptionPlans.Commands.CreateCommand;
 using Pos.tenant.Application.Features.SubscriptionPlans.DTOs;
 using Pos.tenant.Application.Features.Tenants.Commands.CreateCommand;
@@ -19,7 +20,9 @@ namespace Pos.tenant.Application.Mappings
             CreateMap<Tenant,CreateTenantCommand>();
             CreateMap<Tenant, TenantDto>();
             CreateMap<TenantStatusHistory, TenantStatusHistoryDto>();
-            
+            CreateMap<TenantSettings, TenantSettingsDto>();
+            CreateMap<TenantUsageCounters, TenantUsageCountersDto>();
+            CreateMap<SubscriptionInvoice, SubscriptionInvoiceDto>();
         }
     }
 }

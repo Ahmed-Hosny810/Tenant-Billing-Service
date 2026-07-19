@@ -4,12 +4,17 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Pos.tenant.Application.Features.SubscriptionPlans.Commands.CreateCommand;
 using Pos.tenant.Application.Features.Tenants.Commands.CreateCommand;
+using Pos.tenant.Application.Features.Tenants.Commands.Settings;
 using Pos.tenant.Application.Features.Tenants.Commands.StatusCommand;
+using Pos.tenant.Application.Features.Tenants.Commands.TenantUsageCountersCommands;
 using Pos.tenant.Application.Features.Tenants.DTOS;
 using Pos.tenant.Application.Features.Tenants.Queries.GetAllQuery;
 using Pos.tenant.Application.Features.Tenants.Queries.GetByIdQuery;
 using Pos.tenant.Application.Features.Tenants.Queries.GetStatusHistoryQuery;
+using Pos.tenant.Application.Features.Tenants.Queries.GetTenantSettingsQuery;
+using Pos.tenant.Application.Features.Tenants.Queries.GetTenantUsageCounters;
 using Pos.tenant.Application.Wrappers;
+using Pos.tenant.Domain.Enums;
 
 namespace Pos.tenant.WebApi.Controllers.V1
 {
@@ -146,6 +151,143 @@ namespace Pos.tenant.WebApi.Controllers.V1
             return Ok(new Response<IEnumerable<TenantStatusHistoryDto>>(
                 history,
                 "Tenant status history retrieved successfully."
+            ));
+        }
+
+        [HttpPut("{id:guid}/settings")]
+        public async Task<ActionResult<Response<Guid>>> UpdateSettings(Guid id, [FromBody] UpdateTenantSettingsCommand command)
+        {
+            var reult = await _mediator.Send(command);
+
+            if (reult.IsFailure)
+            {
+                return BadRequest(new Response<Guid>
+                {
+                    Succeeded = false,
+                    Message = "Tenant settings update failed.",
+                    Errors = reult.Errors
+                });
+            }
+
+            return Ok(new Response<Guid>(reult.Value, "Tenant settings updated successfully."));
+        }
+
+        [HttpGet("{id:guid}/settings")]
+        public async Task<ActionResult<Response<TenantSettingsDto>>> GetTenantSettings(Guid id)
+        {
+            var history = await _mediator.Send(new GetTenantSettingsByIdQuery
+            {
+                TenantId = id
+            });
+
+            return Ok(new Response<TenantSettingsDto>(
+                history,
+                "Tenant settings retrieved successfully."
+            ));
+        }
+
+
+        [HttpGet("{tenantId:guid}/usage")]
+        public async Task<ActionResult<Response<TenantUsageCountersDto>>> GetUsage(Guid tenantId)
+        {
+            var usage = await _mediator.Send(new GetTenantUsageQuery
+            {
+                TenantId = tenantId
+            });
+
+            return Ok(new Response<TenantUsageCountersDto>(
+                usage,
+                "Tenant usage counters retrieved successfully."
+            ));
+        }
+
+        [HttpPost("{tenantId:guid}/usage/increase-branch")]
+        public async Task<ActionResult<Response<Guid>>> IncreaseBranch(Guid tenantId)
+        {
+            var result = await _mediator.Send(new IncreaseTenantUsageCommand
+            {
+                TenantId = tenantId,
+                CounterType = TenantUsageCounterType.Branch
+            });
+
+            return HandleUsageCommandResult(result, "Branch usage increased successfully.");
+        }
+
+        [HttpPost("{tenantId:guid}/usage/increase-product")]
+        public async Task<ActionResult<Response<Guid>>> IncreaseProduct(Guid tenantId)
+        {
+            var result = await _mediator.Send(new IncreaseTenantUsageCommand
+            {
+                TenantId = tenantId,
+                CounterType = TenantUsageCounterType.Product
+            });
+
+            return HandleUsageCommandResult(result, "Product usage increased successfully.");
+        }
+
+        [HttpPost("{tenantId:guid}/usage/increase-cashier")]
+        public async Task<ActionResult<Response<Guid>>> IncreaseCashier(Guid tenantId)
+        {
+            var result = await _mediator.Send(new IncreaseTenantUsageCommand
+            {
+                TenantId = tenantId,
+                CounterType = TenantUsageCounterType.Cashier
+            });
+
+            return HandleUsageCommandResult(result, "Cashier usage increased successfully.");
+        }
+
+        [HttpPost("{tenantId:guid}/usage/decrease-branch")]
+        public async Task<ActionResult<Response<Guid>>> DecreaseBranch(Guid tenantId)
+        {
+            var result = await _mediator.Send(new DecreaseTenantUsageCommand
+            {
+                TenantId = tenantId,
+                CounterType = TenantUsageCounterType.Branch
+            });
+
+            return HandleUsageCommandResult(result, "Branch usage decreased successfully.");
+        }
+
+        [HttpPost("{tenantId:guid}/usage/decrease-product")]
+        public async Task<ActionResult<Response<Guid>>> DecreaseProduct(Guid tenantId)
+        {
+            var result = await _mediator.Send(new DecreaseTenantUsageCommand
+            {
+                TenantId = tenantId,
+                CounterType = TenantUsageCounterType.Product
+            });
+
+            return HandleUsageCommandResult(result, "Product usage decreased successfully.");
+        }
+
+        [HttpPost("{tenantId:guid}/usage/decrease-cashier")]
+        public async Task<ActionResult<Response<Guid>>> DecreaseCashier(Guid tenantId)
+        {
+            var result = await _mediator.Send(new DecreaseTenantUsageCommand
+            {
+                TenantId = tenantId,
+                CounterType = TenantUsageCounterType.Cashier
+            });
+
+            return HandleUsageCommandResult(result, "Cashier usage decreased successfully.");
+        }
+
+        private ActionResult<Response<Guid>> HandleUsageCommandResult(Result<Guid> result,string successMessage)
+        {
+            if (result.IsFailure)
+            {
+                return BadRequest(new Response<Guid>
+                {
+                    Succeeded = false,
+                    Message = "Tenant usage operation failed.",
+                    Errors = result.Errors
+                });
+            }
+
+            return Ok(new Response<Guid>(
+                result.Value,
+                successMessage
             ));
         }
     }

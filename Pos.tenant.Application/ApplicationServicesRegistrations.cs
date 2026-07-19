@@ -21,6 +21,7 @@ namespace Pos.tenant.Application
                 cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
+
         }
     }
 }

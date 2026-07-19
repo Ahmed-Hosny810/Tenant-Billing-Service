@@ -7,22 +7,6 @@ namespace Pos.tenant.Application.Features.Tenants.DTOS
 {
     public class TenantSettingsDto
     {
-
-        public TenantSettingsDto()
-        {
-            
-        }
-        public TenantSettingsDto(TenantSettings settings)
-        {
-            DefaultVatRate = settings.DefaultVatRate;
-            PricesIncludeTax = settings.PricesIncludeTax;
-            ReceiptFooterAr = settings.ReceiptFooterAr;
-            ReceiptFooterEn = settings.ReceiptFooterEn;
-            AllowReturns = settings.AllowReturns;
-            DiscountLimitPercent = settings.DiscountLimitPercent;
-            DefaultLanguage = settings.DefaultLanguage;
-        }
-
         public decimal DefaultVatRate { get; set; }
         public bool PricesIncludeTax { get; set; }
 

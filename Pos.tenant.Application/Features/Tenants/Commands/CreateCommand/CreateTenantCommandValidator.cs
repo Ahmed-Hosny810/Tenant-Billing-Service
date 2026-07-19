@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using Pos.tenant.Application.Helpers;
 using Pos.tenant.Domain.Constants;
 using System;
 using System.Collections.Generic;

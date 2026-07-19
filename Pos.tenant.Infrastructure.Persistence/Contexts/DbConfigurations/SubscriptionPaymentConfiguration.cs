@@ -30,6 +30,25 @@ namespace Pos.tenant.Infrastructure.Persistence.Contexts.DbConfigurations
                 .IsUnicode(false)
                 .IsRequired(false);
 
+            builder.Property(x => x.Provider)
+               .HasMaxLength(50);
+
+            builder.Property(x => x.ProviderPaymentReference)
+                .HasMaxLength(200);
+
+            builder.Property(x => x.ProviderTransactionId)
+                .HasMaxLength(200);
+
+            builder.Property(x => x.ProviderStatus)
+                .HasMaxLength(100);
+
+            builder.Property(x => x.FailureReason)
+                .HasMaxLength(500);
+
+            builder.Property(x => x.IdempotencyKey)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+
             builder.Property(x => x.Status)
                 .HasMaxLength(30)
                 .IsUnicode(false)
@@ -48,6 +67,10 @@ namespace Pos.tenant.Infrastructure.Persistence.Contexts.DbConfigurations
             builder.HasIndex(x => new { x.TenantId, x.InvoiceId });
 
             builder.HasIndex(x => new { x.TenantId, x.Status });
+
+            builder.HasIndex(x => x.IdempotencyKey)
+                .IsUnique()
+                .HasFilter("[IdempotencyKey] IS NOT NULL");
 
             builder.HasOne(x => x.Tenant)
                      .WithMany(x => x.SubscriptionPayments)
