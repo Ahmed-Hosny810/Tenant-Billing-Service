@@ -10,7 +10,6 @@
     <Folder Include="DTOS\" />
     <Folder Include="Features\SubscriptionPayments\Queries\" />
     <Folder Include="Helpers\" />
-    <Folder Include="Interfaces\Services\" />
     <Folder Include="Settings\" />
   </ItemGroup>
 

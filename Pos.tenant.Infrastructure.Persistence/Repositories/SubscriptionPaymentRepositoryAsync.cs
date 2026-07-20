@@ -1,4 +1,5 @@
-﻿using Pos.tenant.Application.Interfaces.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using Pos.tenant.Application.Interfaces.Repositories;
 using Pos.tenant.Domain.Models;
 using Pos.tenant.Infrastructure.Persistence.Contexts;
 using System;
@@ -14,6 +15,15 @@ namespace Pos.tenant.Infrastructure.Persistence.Repositories
         public SubscriptionPaymentRepositoryAsync(ApplicationDbContext context) : base(context)
         {
             _context = context;
+        }
+
+        public async Task<SubscriptionPayment?> GetByIdempotencyKeyAsync(
+           string idempotencyKey,
+           CancellationToken cancellationToken = default)
+        {
+            return await _context.SubscriptionPayments
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.IdempotencyKey == idempotencyKey,cancellationToken);
         }
     }
 }

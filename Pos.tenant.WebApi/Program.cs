@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Pos.tenant.Infrastructure.Persistence;
+using Pos.tenant.Infrastructure.Shared;
 using Pos.tenant.Infrastructure.Persistence.Contexts;
 using Pos.tenant.Infrastructure.Persistence.Seeders;
 using Pos.tenant.WebApi.Extensions;
@@ -41,6 +42,7 @@ namespace Pos.tenant.WebApi
             builder.Services.AddApiVersioningExtension();
             // AddPersistenceServices
             builder.Services.AddPersistenceServices(builder.Configuration);
+            builder.Services.AddSharedInfrastructure(builder.Configuration);
             builder.Services.AddApplicationLayer();
             // Swagger (via extension)
             builder.Services.AddSwaggerExtension();
